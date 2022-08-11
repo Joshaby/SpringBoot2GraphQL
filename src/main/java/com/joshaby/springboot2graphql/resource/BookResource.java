@@ -6,9 +6,11 @@ import com.joshaby.springboot2graphql.repository.AuthorRepository;
 import com.joshaby.springboot2graphql.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.Arguments;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,6 +31,12 @@ public class BookResource {
                            @Argument Integer authorId) {
         Author author = authorRepository.findById(Long.valueOf(authorId)).get();
         Book book = Book.builder().name(name).pageCount(pageCount).author(author).build();
+        return bookRepository.save(book);
+    }
+
+    @MutationMapping
+    @Transactional
+    public Book createBook1(@Argument Book book) {
         return bookRepository.save(book);
     }
 }
