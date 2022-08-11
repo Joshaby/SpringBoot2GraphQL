@@ -35,7 +35,6 @@ public class BookResource {
     }
 
     @MutationMapping
-    @Transactional
     public Book createBook1(@Argument Book book) {
         return bookRepository.save(book);
     }
